@@ -1,5 +1,6 @@
 import { Client, LocalAuth } from "whatsapp-web.js";
 import qrcode from "qrcode-terminal";
+import { globalConfig } from "../config/global";
 
 export default async function initBot({
   name_session,
@@ -10,7 +11,7 @@ export default async function initBot({
   const client = new Client({
     authStrategy: new LocalAuth({
       clientId: name_session,
-      // dataPath: `./${name_session}`,
+      dataPath: globalConfig.cacheDir + `./${name_session}`,
     }),
     qrMaxRetries: 3,
   });
