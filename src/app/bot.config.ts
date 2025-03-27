@@ -10,7 +10,7 @@ export default async function initBot({
   const client = new Client({
     authStrategy: new LocalAuth({
       clientId: name_session,
-      dataPath: `./${name_session}`,
+      // dataPath: `./${name_session}`,
     }),
     qrMaxRetries: 3,
   });
