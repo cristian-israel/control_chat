@@ -8,6 +8,14 @@ export function setupHandlers(client: Client) {
     console.log("✅ Bot conectado ao WhatsApp!");
   });
 
+  client.on("auth_failure", (message: String) => {
+    console.log(`❌ Erro de autenticação: ${message}`);
+  })
+
+  client.on("disconnected", (reason: String) => {
+    console.log(`❌ Bot desconectado: ${reason}`);
+  })
+
   // Monitoramento de mensagens recebidas
   client.on("message", async (message: Message) => {
     if (shouldIgnoreMessage(message, "chat")) return;
@@ -32,11 +40,12 @@ export function setupHandlers(client: Client) {
       console.log(`🗑️ Mensagem apagada por ${formatContact(message.from)}, mas o conteúdo não pôde ser recuperado.`);
     }
   });
+
+  // 5199180715@c.us
+  // client.sendMessage("5199180715@c.us", "Olá, eu sou um bot!");
 }
 
-/**
- * Verifica se a mensagem deve ser ignorada pelo bot.
- */
+// Verifica se a mensagem deve ser ignorada pelo bot.
 function shouldIgnoreMessage(message: Message, type: String): boolean {
   return (
     message.type !== type ||
@@ -49,10 +58,8 @@ function shouldIgnoreMessage(message: Message, type: String): boolean {
   );
 }
 
-/**
- * Formata o número do contato para exibição.
- */
+
+// Formata o número do contato para exibição.
 function formatContact(contact: string): string {
   return contact.replace("@c.us", ""); // Remove o sufixo do WhatsApp
 }
-''
