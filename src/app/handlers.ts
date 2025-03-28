@@ -1,33 +1,34 @@
 import { Client, Message } from "whatsapp-web.js";
 import { generateQRCode, handleMessage } from "./messages";
 
+const chat_id_admin = process.env.CHAT_ID_ADMIN as string;
+
 export function setupHandlers(client: Client) {
   client.on("qr", generateQRCode);
 
   client.once("ready", () => {
-    console.log("✅ Bot conectado ao WhatsApp!");
+    client.sendMessage(chat_id_admin, `✅ Bot conectado ao WhatsApp!`);
   });
 
   client.on("auth_failure", (message: String) => {
-    console.log(`❌ Erro de autenticação: ${message}`);
+    client.sendMessage(chat_id_admin, `❌ Erro de autenticação: ${message}`);
   })
 
   client.on("disconnected", (reason: String) => {
-    console.log(`❌ Bot desconectado: ${reason}`);
+    client.sendMessage(chat_id_admin, `❌ Bot desconectado: ${reason}`);
   })
 
   // Monitoramento de mensagens recebidas
-  client.on("message", async (message: Message) => {
-    if (shouldIgnoreMessage(message, "chat")) return;
+  // client.on("message", async (message: Message) => {
+  //   if (shouldIgnoreMessage(message, "chat")) return;
 
-    await handleMessage(client, message);
-  });
+  //   await handleMessage(client, message);
+  // });
 
   // Monitoramento de mensagens editadas
   client.on("message_edit", async (message: Message, newBody: string, prevBody: string) => {
     if (shouldIgnoreMessage(message, "chat")) return;
-
-    console.log(`✏️ Mensagem editada por ${formatContact(message.from)}:🔹 Antes: "${prevBody}"🔹 Agora: "${newBody}"`);
+    client.sendMessage(chat_id_admin, `Mensagem editada por *${await getContactName(client, message.from)}:*🔹 Antes: _"${prevBody}"_🔹 Agora: _"${newBody}"_`);
   });
 
   // Monitoramento de mensagens excluídas
@@ -35,9 +36,9 @@ export function setupHandlers(client: Client) {
     if (shouldIgnoreMessage(message, "revoked")) return;
 
     if (revoked_msg) {
-      console.log(`🗑️ Mensagem apagada por ${formatContact(message.from)}: "${revoked_msg.body}"`);
+      client.sendMessage(chat_id_admin, `Mensagem apagada por *${await getContactName(client, message.from)}:* _"${revoked_msg.body}"_`);
     } else {
-      console.log(`🗑️ Mensagem apagada por ${formatContact(message.from)}, mas o conteúdo não pôde ser recuperado.`);
+      client.sendMessage(chat_id_admin, `Mensagem apagada por *${await getContactName(client, message.from)}:* _{ Conteúdo não pôde o conteúdo não pôde ser recuperado. }_`);
     }
   });
 }
@@ -51,12 +52,12 @@ function shouldIgnoreMessage(message: Message, type: String): boolean {
     message.isForwarded ||
     message.isGif ||
     message.isStarred ||
-    message.isStatus
+    message.isStatus ||
+    message.hasMedia
   );
 }
 
-
-// Formata o número do contato para exibição.
-function formatContact(contact: string): string {
-  return contact.replace("@c.us", ""); // Remove o sufixo do WhatsApp
+// Buscar o nome do contato
+async function getContactName(client: Client, contact: string): Promise<string> {
+  return await client.getContactById(contact).then(({ name }) => name || "Unknown Contact");
 }
