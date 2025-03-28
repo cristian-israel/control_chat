@@ -1,9 +1,9 @@
 import { Client, Message } from "whatsapp-web.js";
 import { generateQRCode, handleMessage } from "./messages";
 
-const chat_id_admin = process.env.CHAT_ID_ADMIN as string;
-
 export function setupHandlers(client: Client) {
+  const chat_id_admin = process.env.CHAT_ID_ADMIN as string;
+
   client.on("qr", generateQRCode);
 
   client.once("ready", () => {
