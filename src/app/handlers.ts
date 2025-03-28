@@ -40,9 +40,6 @@ export function setupHandlers(client: Client) {
       console.log(`🗑️ Mensagem apagada por ${formatContact(message.from)}, mas o conteúdo não pôde ser recuperado.`);
     }
   });
-
-  // 5199180715@c.us
-  // client.sendMessage("5199180715@c.us", "Olá, eu sou um bot!");
 }
 
 // Verifica se a mensagem deve ser ignorada pelo bot.
