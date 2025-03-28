@@ -7,8 +7,8 @@ import initBot from "./app/bot.config";
   console.clear();
 
   // Iniciar banco de dados
-  await initDB();
+  // await initDB();
 
   // Iniciar Bot do WhatsApp
-  await initBot({ name_session: "teste" });
+  await initBot("bot");
 })();
