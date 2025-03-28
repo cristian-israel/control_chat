@@ -1,21 +1,24 @@
 import { Client, Message } from "whatsapp-web.js";
 import { generateQRCode, handleMessage } from "./messages";
+import moment from "moment";
 
 export function setupHandlers(client: Client) {
   const chat_id_admin = process.env.CHAT_ID_ADMIN as string;
 
   client.on("qr", generateQRCode);
 
-  client.once("ready", () => {
-    client.sendMessage(chat_id_admin, `✅ Bot conectado ao WhatsApp!`);
+  client.once("ready", async () => {
+    await logSession(client, chat_id_admin, `✅ Bot conectado ao WhatsApp!`);
   });
 
-  client.on("auth_failure", (message: String) => {
-    client.sendMessage(chat_id_admin, `❌ Erro de autenticação: ${message}`);
+  client.on("auth_failure", async (message: String) => {
+    await logSession(client, chat_id_admin, `❌ Erro de autenticação: ${message}`);
+
   })
 
-  client.on("disconnected", (reason: String) => {
-    client.sendMessage(chat_id_admin, `❌ Bot desconectado: ${reason}`);
+  client.on("disconnected", async (reason: String) => {
+    await logSession(client, chat_id_admin, `❌ Bot desconectado: ${reason}`);
+
   })
 
   // Monitoramento de mensagens recebidas
@@ -44,7 +47,7 @@ export function setupHandlers(client: Client) {
 }
 
 // Verifica se a mensagem deve ser ignorada pelo bot.
-function shouldIgnoreMessage(message: Message, type: String): boolean {
+function shouldIgnoreMessage(message: Message, type: string): boolean {
   return (
     message.type !== type ||
     message.fromMe ||
@@ -60,4 +63,9 @@ function shouldIgnoreMessage(message: Message, type: String): boolean {
 // Buscar o nome do contato
 async function getContactName(client: Client, contact: string): Promise<string> {
   return await client.getContactById(contact).then(({ name }) => name || "Unknown Contact");
+}
+
+async function logSession(client: Client, chat_id: string, message: string) {
+  await client.sendMessage(chat_id, message);
+  console.log(`${moment().format("DD/MM/YYYY hh:mm:ss")} - ${message}`)
 }
