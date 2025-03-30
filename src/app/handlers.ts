@@ -31,34 +31,43 @@ export function setupHandlers(client: Client) {
 
   // Monitoramento de mensagens editadas
   client.on("message_edit", async (message: Message, newBody: string, prevBody: string) => {
-    if (shouldIgnoreMessage(message, "chat")) return;
+    if (shouldIgnoreMessage({ message, message_type: "chat", chat_type: [""] })) return;
     client.sendMessage(chat_id_admin, `Mensagem editada por *${await getContactName(client, message.from)}:*🔹 Antes: _"${prevBody}"_🔹 Agora: _"${newBody}"_`);
-    // message.id.id
+    await ModelsWhatsapp.Messages.create({
+      id: message.id.id,
+      type: "message_edit",
+      message: newBody,
+      prev_message: prevBody,
+      from: message.from,
+    })
   });
 
   // Monitoramento de mensagens excluídas
   client.on("message_revoke_everyone", async (message: Message, revoked_msg?: Message) => {
-    if (shouldIgnoreMessage(message, "revoked")) return;
-
-    if (revoked_msg) {
-      client.sendMessage(chat_id_admin, `Mensagem apagada por *${await getContactName(client, message.from)}:* _"${revoked_msg.body}"_`);
-    } else {
-      client.sendMessage(chat_id_admin, `Mensagem apagada por *${await getContactName(client, message.from)}:* _{ Conteúdo não pôde o conteúdo não pôde ser recuperado. }_`);
-    }
+    if (shouldIgnoreMessage({ message, message_type: "revoked", chat_type: ["private"] })) return;
+    client.sendMessage(chat_id_admin, `Mensagem apagada por *${await getContactName(client, message.from)}:* _"${revoked_msg ? revoked_msg.body : "Não foi possível recuperar a mensagem"}"_`);
+    await ModelsWhatsapp.Messages.create({
+      id: message.id.id,
+      type: "message_edit",
+      message: revoked_msg ? revoked_msg.body : null,
+      extra: revoked_msg ? null : "Não foi possível recuperar a mensagem",
+      from: message.from,
+    })
   });
 }
 
 // Verifica se a mensagem deve ser ignorada pelo bot.
-function shouldIgnoreMessage(message: Message, type: string): boolean {
+function shouldIgnoreMessage({ message, message_type, chat_type }: { message: Message; message_type: string; chat_type: string[] }): boolean {
   return (
-    message.type !== type ||
+    message.type !== message_type ||
     message.fromMe ||
     message.isEphemeral ||
     message.isForwarded ||
     message.isGif ||
     message.isStarred ||
     message.isStatus ||
-    message.hasMedia
+    message.hasMedia ||
+    chat_type.some(chatType => message.from.includes(chatType))
   );
 }
 
