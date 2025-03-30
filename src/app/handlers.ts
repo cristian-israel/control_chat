@@ -31,7 +31,7 @@ export function setupHandlers(client: Client) {
 
   // Monitoramento de mensagens editadas
   client.on("message_edit", async (message: Message, newBody: string, prevBody: string) => {
-    if (shouldIgnoreMessage({ message, message_type: "chat", chat_type: [""] })) return;
+    if (shouldIgnoreMessage({ message, message_type: "chat", chat_type: ["c"] })) return;
     client.sendMessage(chat_id_admin, `Mensagem editada por *${await getContactName(client, message.from)}:*🔹 Antes: _"${prevBody}"_🔹 Agora: _"${newBody}"_`);
     await ModelsWhatsapp.Messages.create({
       id: message.id.id,
@@ -44,7 +44,7 @@ export function setupHandlers(client: Client) {
 
   // Monitoramento de mensagens excluídas
   client.on("message_revoke_everyone", async (message: Message, revoked_msg?: Message) => {
-    if (shouldIgnoreMessage({ message, message_type: "revoked", chat_type: ["private"] })) return;
+    if (shouldIgnoreMessage({ message, message_type: "revoked", chat_type: ["c"] })) return;
     client.sendMessage(chat_id_admin, `Mensagem apagada por *${await getContactName(client, message.from)}:* _"${revoked_msg ? revoked_msg.body : "Não foi possível recuperar a mensagem"}"_`);
     await ModelsWhatsapp.Messages.create({
       id: message.id.id,
