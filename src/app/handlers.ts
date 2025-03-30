@@ -1,6 +1,7 @@
 import { Client, Message } from "whatsapp-web.js";
 import { generateQRCode, handleMessage } from "./messages";
 import moment from "moment";
+import { ModelsWhatsapp } from "../config/db/db.models";
 
 export function setupHandlers(client: Client) {
   const chat_id_admin = process.env.CHAT_ID_ADMIN as string;
@@ -32,6 +33,7 @@ export function setupHandlers(client: Client) {
   client.on("message_edit", async (message: Message, newBody: string, prevBody: string) => {
     if (shouldIgnoreMessage(message, "chat")) return;
     client.sendMessage(chat_id_admin, `Mensagem editada por *${await getContactName(client, message.from)}:*🔹 Antes: _"${prevBody}"_🔹 Agora: _"${newBody}"_`);
+    // message.id.id
   });
 
   // Monitoramento de mensagens excluídas

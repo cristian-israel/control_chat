@@ -3,10 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config(); // Carregar variáveis de ambiente
 
-// Variável estática para armazenar a conexão
-let isConnected = false;
-
-const connectDB = async () => {
+const initDB = async () => {
   const URI = process.env.MONGO_URI; // Banco de dados
 
   if (!URI) {
@@ -15,14 +12,8 @@ const connectDB = async () => {
   }
 
   try {
-    if (isConnected) {
-      console.log("✅ Já está conectado ao MongoDB.");
-      return; // Já está conectado, não precisa fazer nada
-    }
-
     // Conectar ao banco de dados
     await mongoose.connect(URI);
-    isConnected = true;
 
     console.log("✅ Conectado ao banco de dados com sucesso!");
   } catch (error) {
@@ -31,4 +22,4 @@ const connectDB = async () => {
   }
 };
 
-export default connectDB;
+export default initDB;
