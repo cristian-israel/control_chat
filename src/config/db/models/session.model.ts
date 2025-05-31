@@ -17,6 +17,6 @@ const SessionSchema = new Schema<ISession>({
   updatedAt: { type: Date, default: Date.now },
 });
 
-const Session = model<ISession>("Session", SessionSchema);
+const Session = model<ISession>("session", SessionSchema);
 
 export default Session;
