@@ -5,9 +5,6 @@ import { ModelsWhatsapp } from "../config/db/db.models";
 
 export function setupHandlers(client: Client) {
   const chat_id_admin = process.env.CHAT_ID_ADMIN as string;
-  console.log(
-    `🛠️ Configurando handlers para o bot WhatsApp com chat_id_admin: ${chat_id_admin}`
-  );
 
   client.on("qr", generateQRCode);
 
