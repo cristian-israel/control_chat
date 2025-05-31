@@ -5,7 +5,7 @@ export function initAuth(name_session: string): Client {
   return new Client({
     authStrategy: new LocalAuth({
       clientId: name_session,
-      dataPath: `${globalConfig.cacheDir}/${name_session}`,
+      // dataPath: `${globalConfig.cacheDir}/${name_session}`,
     }),
     puppeteer: {
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
