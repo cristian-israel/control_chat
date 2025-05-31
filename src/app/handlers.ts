@@ -23,11 +23,11 @@ export function setupHandlers(client: Client) {
   })
 
   // Monitoramento de mensagens recebidas
-  client.on("message", async (message: Message) => {
-    if (shouldIgnoreMessage({ message, message_type: "chat", chat_type: ["c"] })) return;
+  // client.on("message", async (message: Message) => {
+  //   if (shouldIgnoreMessage({ message, message_type: "chat", chat_type: ["c"] })) return;
 
-    await handleMessage(client, message);
-  });
+  //   await handleMessage(client, message);
+  // });
 
   // Monitoramento de mensagens editadas
   client.on("message_edit", async (message: Message, newBody: string, prevBody: string) => {
