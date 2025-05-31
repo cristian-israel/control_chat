@@ -10,8 +10,8 @@ export async function handleMessage(client: Client, message: Message) {
   const text = message.body.toLowerCase();
 
   const responses: { [key: string]: string } = {
-    oi: "Olá! Como posso te ajudar?",
-    ajuda: "Claro! Aqui estão algumas opções: ...",
+    // oi: "Olá! Como posso te ajudar?",
+    // ajuda: "Claro! Aqui estão algumas opções: ...",
   };
 
   if (responses[text]) {
