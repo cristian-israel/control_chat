@@ -6,9 +6,8 @@ class GlobalConfig {
   public readonly cacheDir: string;
 
   private constructor() {
-		// raiz do projeto
     this.cacheDir = path.join(__dirname, ".cache");
-    
+
     if (!fs.existsSync(this.cacheDir)) {
       fs.mkdirSync(this.cacheDir);
     }
@@ -22,5 +21,4 @@ class GlobalConfig {
   }
 }
 
-// Exporta a instância global da configuração
 export const globalConfig = GlobalConfig.getInstance();
