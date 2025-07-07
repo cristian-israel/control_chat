@@ -1,5 +1,5 @@
 import { Client, LocalAuth } from "whatsapp-web.js";
-import { globalConfig } from "../config/global/index";
+import { globalConfig } from "../config/global";
 
 export function initAuth(sessionName: string): Client {
   return new Client({

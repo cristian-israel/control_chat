@@ -1,9 +1,8 @@
-import { initAuth } from "./bot.auth";
-import { setupHandlers } from "./bot.handlers";
+import { initAuth } from "./auth";
+import { setupHandlers } from "./handlers";
 
-export default async function initBot(sessionName: string) {
-  const client = initAuth(sessionName);
+export default async function initBot(name_session: string) {
+  const client = initAuth(name_session);
   setupHandlers(client);
-  await client.initialize();
-  return client;
+  client.initialize();
 }
