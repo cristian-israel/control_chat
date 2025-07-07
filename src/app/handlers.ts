@@ -36,7 +36,11 @@ export function setupHandlers(client: Client) {
     "message_edit",
     async (message: Message, newBody: string, prevBody: string) => {
       if (
-        shouldIgnoreMessage({ message, message_type: "chat", chat_type: ["c"] })
+        shouldIgnoreMessage({
+          message,
+          message_type: "chat",
+          chat_type: ["c", "u"],
+        })
       )
         return;
       client.sendMessage(
@@ -64,7 +68,7 @@ export function setupHandlers(client: Client) {
         shouldIgnoreMessage({
           message,
           message_type: "revoked",
-          chat_type: ["c"],
+          chat_type: ["c", "u"],
         })
       )
         return;
