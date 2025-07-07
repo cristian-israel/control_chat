@@ -14,7 +14,7 @@ export function shouldIgnoreMessage({
   const isEphemeralOrForwarded = message.isEphemeral || message.isForwarded;
   const isUnwantedMedia =
     message.isGif || message.isStarred || message.isStatus || message.hasMedia;
-  const isWrongChatType = chat_type.some((type) => message.from.includes(type));
+  const isWrongChatType = !chat_type.some((type) => message.from.includes(type));
 
   return (
     isWrongType ||

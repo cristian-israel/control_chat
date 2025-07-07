@@ -24,12 +24,12 @@ export default function onMessageRevoke(client: Client) {
       `🗑️ Mensagem apagada por *${name}*: _"${msgContent}"_`
     );
 
-    await ModelsWhatsapp.Messages.create({
-      id: message.id.id,
-      type: "message_edit",
-      message: revokedMsg?.body ?? null,
-      extra: revokedMsg ? null : "Não foi possível recuperar a mensagem",
-      from: message.from,
-    });
+    // await ModelsWhatsapp.Messages.create({
+    //   id: message.id.id,
+    //   type: "message_edit",
+    //   message: revokedMsg?.body ?? null,
+    //   extra: revokedMsg ? null : "Não foi possível recuperar a mensagem",
+    //   from: message.from,
+    // });
   });
 }

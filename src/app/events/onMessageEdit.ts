@@ -25,13 +25,13 @@ export default function onMessageEdit(client: Client) {
         `📝 Mensagem editada por *${name}*: 🔹 Antes: _"${prevBody}"_ 🔹 Agora: _"${newBody}"_`
       );
 
-      await ModelsWhatsapp.Messages.create({
-        id: message.id.id,
-        type: "message_edit",
-        message: newBody,
-        prev_message: prevBody,
-        from: message.from,
-      });
+      // await ModelsWhatsapp.Messages.create({
+      //   id: message.id.id,
+      //   type: "message_edit",
+      //   message: newBody,
+      //   prev_message: prevBody,
+      //   from: message.from,
+      // });
     }
   );
 }

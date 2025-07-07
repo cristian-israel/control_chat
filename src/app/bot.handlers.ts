@@ -1,3 +1,5 @@
+import { Client } from "whatsapp-web.js";
+
 import onReady from "./events/onReady";
 import onQr from "./events/onQr";
 import onAuthFailure from "./events/onAuthFailure";
