@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+
 import initDB from "./config/db/init";
 import initBot from "./app/bot.config";
 
@@ -10,6 +11,6 @@ import initBot from "./app/bot.config";
   await initDB();
 
   // Iniciar Bot do WhatsApp
-  // await initBot("pessoal");
-  await initBot("giga2640");
+  await initBot("pessoal");
+  // await initBot("giga2640");
 })();
