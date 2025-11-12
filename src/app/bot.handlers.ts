@@ -6,6 +6,7 @@ import onAuthFailure from "./events/onAuthFailure";
 import onDisconnected from "./events/onDisconnected";
 import onMessageEdit from "./events/onMessageEdit";
 import onMessageRevoke from "./events/onMessageRevoke";
+import onMessage from "./events/onMessage";
 
 export function setupHandlers(client: Client) {
   onQr(client);
@@ -14,4 +15,5 @@ export function setupHandlers(client: Client) {
   onDisconnected(client);
   onMessageEdit(client);
   onMessageRevoke(client);
+  onMessage(client);
 }

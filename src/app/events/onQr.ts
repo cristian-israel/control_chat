@@ -1,6 +1,9 @@
 import { Client } from "whatsapp-web.js";
-import { generateQRCode } from "../messages";
+import qrcode from "qrcode-terminal";
 
 export default function onQr(client: Client) {
-  client.on("qr", generateQRCode);
+  client.on("qr", (qr: string) => {
+    console.log("📱 Escaneie o QR Code abaixo para conectar:");
+    qrcode.generate(qr, { small: true });
+  });
 }
