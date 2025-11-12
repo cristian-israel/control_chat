@@ -12,5 +12,4 @@ import initBot from "./app/bot.config";
 
   // Iniciar Bot do WhatsApp
   await initBot("pessoal");
-  // await initBot("giga2640");
 })();
