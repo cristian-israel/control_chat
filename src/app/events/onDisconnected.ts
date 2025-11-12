@@ -1,4 +1,5 @@
 import { Client } from "whatsapp-web.js";
+
 import { logSession } from "../utils";
 
 export default function onDisconnected(client: Client) {
