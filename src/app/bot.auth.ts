@@ -7,6 +7,7 @@ export function initAuth(sessionName: string): Client {
       clientId: sessionName,
       dataPath: globalConfig.cacheDir,
     }),
+
     puppeteer: {
       headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
