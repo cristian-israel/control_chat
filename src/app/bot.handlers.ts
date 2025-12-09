@@ -15,5 +15,5 @@ export function setupHandlers(client: Client) {
   onDisconnected(client);
   onMessageEdit(client);
   onMessageRevoke(client);
-  onMessage(client);
+  // onMessage(client);
 }

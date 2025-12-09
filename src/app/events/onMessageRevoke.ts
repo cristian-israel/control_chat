@@ -1,7 +1,8 @@
 import { Client } from "whatsapp-web.js";
+
 import { getContactName } from "../utils";
-import { ModelsWhatsapp } from "../../config/db/db.models";
 import { shouldIgnoreMessage } from "../filters/shouldIgnoreMessage";
+import { ModelsWhatsapp } from "../../config/db/db.models";
 
 export default function onMessageRevoke(client: Client) {
   client.on("message_revoke_everyone", async (message, revokedMsg) => {
@@ -16,6 +17,7 @@ export default function onMessageRevoke(client: Client) {
 
     const chatIdAdmin = process.env.CHAT_ID_ADMIN as string;
     const name = await getContactName(client, message.from);
+
     const msgContent =
       revokedMsg?.body || "Não foi possível recuperar a mensagem";
 
@@ -24,12 +26,12 @@ export default function onMessageRevoke(client: Client) {
       `🗑️ Mensagem apagada por *${name}*: _"${msgContent}"_`
     );
 
-    await ModelsWhatsapp.Messages.create({
-      id: message.id.id,
-      type: "message_edit",
-      message: revokedMsg?.body ?? null,
-      extra: revokedMsg ? null : "Não foi possível recuperar a mensagem",
-      from: message.from,
-    });
+    // await ModelsWhatsapp.Messages.create({
+    //   id: message.id.id,
+    //   type: "message_edit",
+    //   message: revokedMsg?.body ?? null,
+    //   extra: revokedMsg ? null : "Não foi possível recuperar a mensagem",
+    //   from: message.from,
+    // });
   });
 }
