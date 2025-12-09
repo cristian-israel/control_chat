@@ -10,3 +10,7 @@ Editar Mensagens ✏️
 Você pode editar uma mensagem em até 15 minutos após enviá-la.
 
 Após esse tempo, a edição não será mais permitida.
+
+# Atualizações
+
+- Removido o registro de mensagens editadas e apagadas no banco de dados para otimizar o desempenho e reduzir o armazenamento desnecessário.
