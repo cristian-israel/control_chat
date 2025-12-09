@@ -18,6 +18,7 @@ export async function getContactName(
     const contact = await client.getContactById(contactId);
     return contact.name || "Contato Desconhecido";
   } catch (error) {
-    return "Contato Desconhecido";
+    // Replace após o @ pelo regex e ignorar os 2 primeiros caracteres
+    return contactId.replace(/@.+/, "").slice(2) ?? "Contato Desconhecido";
   }
 }
